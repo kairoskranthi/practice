@@ -18,7 +18,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'oracle'
-      - run: echo $(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout| sed 's/SNAPSHOT/${{ github.ref_name }}-SNAPSHOT/g')
+      - run: echo myver=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout| sed 's/SNAPSHOT/${{ github.ref_name }}-SNAPSHOT/g') >> $GITHUB_ENV
+      - run: echo ${{ env.myver}}
       - name: Set projects Maven version to GitHub Action GUI set version
         run: mvn versions:set "-DnewVersion=${{ github.event.inputs.releaseversion }}"
       - name: Publish package
